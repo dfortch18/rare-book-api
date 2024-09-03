@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.dfortch</groupId>
 	<artifactId>rare-book-api</artifactId>
-	<version>1.0.0beta-1</version>
+	<version>1.0.0</version>
 	<name>Rare Book API</name>
 	<description>API to manage a collection of rare books</description>
 	<url>https://github.com/dfortch18/rare-book-api</url>

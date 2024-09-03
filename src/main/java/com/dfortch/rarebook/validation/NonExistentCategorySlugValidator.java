@@ -1,0 +1,30 @@
+package com.dfortch.rarebook.validation;
+
+import com.dfortch.rarebook.persistence.repository.CategoryRepository;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+@Component
+@RequiredArgsConstructor
+public class NonExistentCategorySlugValidator implements ConstraintValidator<NonExistentCategorySlug, String> {
+
+    private final CategoryRepository categoryRepository;
+
+    private boolean allowNull;
+
+    @Override
+    public void initialize(NonExistentCategorySlug constraintAnnotation) {
+        allowNull = constraintAnnotation.allowNull();
+    }
+
+    @Override
+    public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
+        if (value == null) {
+            return allowNull;
+        }
+
+        return !categoryRepository.existsBySlug(value);
+    }
+}

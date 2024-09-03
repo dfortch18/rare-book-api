@@ -1,0 +1,1197 @@
+{
+	"info": {
+		"_postman_id": "050c0d89-603e-4a5c-b86c-5e10b660870a",
+		"name": "Rare Book API V1",
+		"description": "API to manage a collection of rare books.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24573005"
+	},
+	"item": [
+		{
+			"name": "Rare Book",
+			"item": [
+				{
+					"name": "Get Sorted Books",
+					"item": [
+						{
+							"name": "Get Books Sorted by Price (Cheapest)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localUrl}}/api/v1/books?sort=price",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"books"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "price"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Books Sorted by Price Descending (Expensive)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localUrl}}/api/v1/books?sort=price,desc",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"books"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "price,desc"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Books Sorted by Category Slug",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localUrl}}/api/v1/books?sort=category.slug",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"books"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "category.slug"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Books Sorted by Category Slug Descending",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localUrl}}/api/v1/books?sort=category.slug,desc",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"books"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "category.slug,desc"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Crud",
+					"item": [
+						{
+							"name": "Create Book",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Check if successfully created', () => {\r",
+											"    pm.expect(pm.response.code).to.eql(201);\r",
+											"});\r",
+											"\r",
+											"if (pm.response.code === 201) {\r",
+											"    var responseJson = pm.response.json();\r",
+											"    pm.environment.set('bookId', responseJson.recordId);\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"Pride and Prejudice\",\r\n  \"author\": \"Jane Austen\",\r\n  \"categorySlug\": \"science-fiction\",\r\n  \"publicationYear\": 1813232,\r\n  \"isbn\": \"978-1503290563\",\r\n  \"condition\": \"USED\",\r\n  \"rarity\": \"VERY_RARE\",\r\n  \"description\": \"A classic novel of manners that explores the themes of love, social standing, and morality in early 19th-century England.\",\r\n  \"price\": 89.99,\r\n  \"editions\": [\r\n    {\r\n      \"editionNumber\": 1,\r\n      \"publicationYear\": 1813,\r\n      \"notes\": \"First edition, original cloth binding\"\r\n    },\r\n    {\r\n      \"editionNumber\": 3,\r\n      \"publicationYear\": 1883,\r\n      \"notes\": \"Illustrated edition with woodcut engravings\"\r\n    },\r\n    {\r\n      \"editionNumber\": 5,\r\n      \"publicationYear\": 1950,\r\n      \"notes\": \"Annotated edition with critical essays\"\r\n    }\r\n  ]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localUrl}}/api/v1/books",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"books"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Created Book",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Check if successfully retreieved', () => {\r",
+											"    pm.expect(pm.response.code).to.eql(200);\r",
+											"});\r",
+											"\r",
+											"if (pm.response.code === 200) {\r",
+											"    var responseJson = pm.response.json();\r",
+											"    pm.environment.set('bookBody', JSON.stringify(responseJson));\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localUrl}}/api/v1/books/{{bookId}}",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"books",
+										"{{bookId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Book",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Check if successfully updated', () => {\r",
+											"    pm.expect(pm.response.code).to.eql(200);\r",
+											"});\r",
+											"\r",
+											"pm.environment.set('bookBody', null);\r",
+											"pm.environment.set('bookBodyUpdated', null);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"function getRandomInt(min, max) {\r",
+											"    return Math.floor(Math.random() * (max - min + 1)) + min;\r",
+											"}\r",
+											"\r",
+											"\r",
+											"var bookBody = JSON.parse(pm.environment.get('bookBody'));\r",
+											"\r",
+											"bookBody.categorySlug = bookBody.category.slug;\r",
+											"bookBody.category = undefined;\r",
+											"\r",
+											"bookBody.title = \"Updated title\";\r",
+											"bookBody.author = \"Updated author\";\r",
+											"bookBody.isbn = '978-' + getRandomInt(0, 999999999);\r",
+											"bookBody.publicationYear = getRandomInt(1900, 2024);\r",
+											"bookBody.price = parseFloat((Math.random() * 100).toFixed(2));\r",
+											"bookBody.description = \"Updated description\";\r",
+											"\r",
+											"console.log(bookBody);\r",
+											"\r",
+											"pm.environment.set('bookBodyUpdated', JSON.stringify(bookBody));\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{{bookBodyUpdated}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localUrl}}/api/v1/books/{{bookId}}",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"books",
+										"{{bookId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Updated Book",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Check if successfully retreieved', () => {\r",
+											"    pm.expect(pm.response.code).to.eql(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localUrl}}/api/v1/books/{{bookId}}",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"books",
+										"{{bookId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Book",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Check if successfully deleted', () => {\r",
+											"    pm.expect(pm.response.code).to.eql(200);\r",
+											"});\r",
+											"\r",
+											"pm.environment.set('bookId', null);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{localUrl}}/api/v1/books/{{bookId}}",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"books",
+										"{{bookId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Filtered Books",
+					"item": [
+						{
+							"name": "Get Books Filtered by Condition",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var bookConditions = [\"NEW\", \"USED\", \"BROKEN\"];\r",
+											"\r",
+											"var bookCondition = bookConditions[Math.floor(Math.random() * bookConditions.length)];\r",
+											"\r",
+											"pm.environment.set('bookCondition', bookCondition);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.environment.set('bookConditions', null);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localUrl}}/api/v1/books?condition={{bookCondition}}",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"books"
+									],
+									"query": [
+										{
+											"key": "condition",
+											"value": "{{bookCondition}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Books Filtered by Rarity",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var bookRarities = [\"COMMON\", \"RARE\", \"VERY_RARE\"];\r",
+											"\r",
+											"var bookRarity = bookRarities[Math.floor(Math.random() * bookRarities.length)];\r",
+											"\r",
+											"pm.environment.set('bookRarity', bookRarity);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.environment.set('bookRarity', null);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localUrl}}/api/v1/books?rarity={{bookRarity}}",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"books"
+									],
+									"query": [
+										{
+											"key": "rarity",
+											"value": "{{bookRarity}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Errors",
+					"item": [
+						{
+							"name": "Create Book with Invalid Body",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Check if is a bad request', () => {\r",
+											"    pm.expect(pm.response.code).to.eql(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"{{$randomFirstName}}\",\r\n    \"description\": \"{{$randomLoremParagraph}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localUrl}}/api/v1/books",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"books"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Book with Invalid Body",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Check if is a bad request', () => {\r",
+											"    pm.expect(pm.response.code).to.eql(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"{{$randomFirstName}}\",\r\n    \"description\": \"{{$randomLoremParagraph}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localUrl}}/api/v1/books/1",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"books",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Books",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localUrl}}/api/v1/books",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"books"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Get Sorted Categories",
+					"item": [
+						{
+							"name": "Get Categories Sorted by Name",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localUrl}}/api/v1/categories?sort=name,asc",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"categories"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "name,asc"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Categories Sorted by Name Descending",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localUrl}}/api/v1/categories?sort=name,desc",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"categories"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "name,desc"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Categories Sorted by Slug",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localUrl}}/api/v1/categories?sort=slug,asc",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"categories"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "slug,asc"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Categories Sorted by Slug Descending",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localUrl}}/api/v1/categories?sort=slug,desc",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"categories"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "slug,desc"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Filtered Categories",
+					"item": [
+						{
+							"name": "Get Books Filtered by Keyword",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localUrl}}/api/v1/categories?keyword=fiction",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"categories"
+									],
+									"query": [
+										{
+											"key": "keyword",
+											"value": "fiction"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Get categories with different filters"
+				},
+				{
+					"name": "Crud",
+					"item": [
+						{
+							"name": "Create Category",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Check if successfully created', () => {\r",
+											"    pm.expect(pm.response.code).to.eql(201);\r",
+											"});\r",
+											"\r",
+											"if (pm.response.code === 201) {\r",
+											"    var responseJson = pm.response.json();\r",
+											"    pm.environment.set('categoryId', responseJson.recordId);\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{$randomLoremWord}}\",\r\n    \"slug\": \"{{$randomLoremSlug}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localUrl}}/api/v1/categories",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Created Category",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Check if successfully retreieved', () => {\r",
+											"    pm.expect(pm.response.code).to.eql(200);\r",
+											"});\r",
+											"\r",
+											"if (pm.response.code === 200) {\r",
+											"    var responseJson = pm.response.json();\r",
+											"    pm.environment.set('categoryBody', JSON.stringify(responseJson));\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localUrl}}/api/v1/categories/{{categoryId}}",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"{{categoryId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Category",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var categoryBody = JSON.parse(pm.environment.get('categoryBody'));\r",
+											"\r",
+											"categoryBody.name = \"Updated name\";\r",
+											"categoryBody.slug = \"updated-slug\";\r",
+											"categoryBody.description = \"Updated description\";\r",
+											"\r",
+											"pm.environment.set('categoryBodyUpdated', JSON.stringify(categoryBody));"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Check if successfully created', () => {\r",
+											"    pm.expect(pm.response.code).to.eql(200);\r",
+											"});\r",
+											"\r",
+											"pm.environment.set('categoryBody', null);\r",
+											"pm.environment.set('categoryBodyUpdated', null);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{{categoryBodyUpdated}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localUrl}}/api/v1/categories/{{categoryId}}",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"{{categoryId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Updated Category Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Check if successfully retreieved', () => {\r",
+											"    pm.expect(pm.response.code).to.eql(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localUrl}}/api/v1/categories/{{categoryId}}",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"{{categoryId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Category",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Check if successfully deleted', () => {\r",
+											"    pm.expect(pm.response.code).to.eql(200);\r",
+											"});\r",
+											"\r",
+											"pm.environment.set('categoryId', null);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{localUrl}}/api/v1/categories/{{categoryId}}",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"{{categoryId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Errors",
+					"item": [
+						{
+							"name": "Update Category with Existent Slug",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Check if is a bad request', () => {\r",
+											"    pm.expect(pm.response.code).to.eql(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Science Fiction\",\r\n    \"slug\": \"science-fiction\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localUrl}}/api/v1/categories/1",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Category with Invalid Body",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Check if is a bad request', () => {\r",
+											"    pm.expect(pm.response.code).to.eql(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"                          \",\r\n    \"slug\": \"science-fiction\" // existent slug\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localUrl}}/api/v1/categories/1",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Category with Invalid Body",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Check if is a bad request', () => {\r",
+											"    pm.expect(pm.response.code).to.eql(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Hello World\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localUrl}}/api/v1/categories",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Category with Existent Slug",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Check if is a bad request', () => {\r",
+											"    pm.expect(pm.response.code).to.eql(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Science fiction already created\",\r\n    \"slug\": \"science-fiction\" // existent slug\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localUrl}}/api/v1/categories",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"categories"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localUrl}}/api/v1/categories",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "localUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "bookId",
+			"value": "invalid"
+		},
+		{
+			"key": "categoryId",
+			"value": "invalid"
+		},
+		{
+			"key": "bookCondition",
+			"value": "invalid"
+		},
+		{
+			"key": "bookRarity",
+			"value": "invalid"
+		}
+	]
+}
